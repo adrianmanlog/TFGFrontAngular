@@ -1,0 +1,20 @@
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: rgba(0,0,0,.125);
+}
+
+.accordion-button:not(.collapsed) {
+  color: var(--primary-color, #d32f2f);
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.accordion-body {
+  padding-top: 0.5rem;
+  padding-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.carousel-inner {
+  padding-bottom: 2rem !important;
+}
