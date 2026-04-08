@@ -4,17 +4,32 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
+    
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto fw-semibold">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/" style="cursor: pointer;">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/nosotros" style="cursor: pointer;">Nosotros</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn btn-danger text-white ms-lg-3 px-3" href="tel:+34900000000">📞 Llamar ahora</a>
-        </li>
+      <ul class="navbar-nav ms-auto fw-semibold align-items-center">
+
+        @if (!isStoreMode()) {
+          
+          <li class="nav-item"><a class="nav-link" routerLink="/">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/nosotros">Nosotros</a></li>
+          <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+            <button class="btn btn-warning fw-bold shadow-sm" (click)="toggleInterface()">
+              <i class="bi bi-shop me-2"></i>Ir a la Tienda
+            </button>
+          </li>
+
+        } @else {
+          
+          <li class="nav-item"><a class="nav-link" routerLink="/tienda">Catálogo</a></li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-cart3 fs-5"></i> Mi Carrito</a></li>
+          <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+            <button class="btn btn-outline-light fw-bold" (click)="toggleInterface()">
+              <i class="bi bi-arrow-left me-2"></i>Volver a la Web
+            </button>
+          </li>
+
+        }
+
       </ul>
     </div>
   </div>

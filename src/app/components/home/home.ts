@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Hero } from "../hero/hero";
-import { Services } from "../services/services";
+import { Services } from "../servicesC/services";
 import { Recambios } from "../recambios/recambios";
 import { Contact } from "../contact/contact";
 

@@ -1,0 +1,45 @@
+/* Efecto para las categorías */
+.category-card {
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  background-color: #fef0f0; /* Un tono rojizo muy muy claro */
+  box-shadow: 0 .5rem 1rem rgba(211, 47, 47, 0.15)!important;
+}
+
+.category-card:hover i {
+  color: #d32f2f !important;
+}
+
+/* Efecto para los productos */
+.product-card {
+  transition: box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.product-card:hover {
+  box-shadow: 0 1rem 3rem rgba(0,0,0,.1)!important;
+}
+
+.product-card img {
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.05); /* Zoom sutil en la imagen */
+}
+
+/* Cajas de las marcas */
+.brand-box {
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.brand-box:hover {
+  border-color: #d32f2f;
+  color: #d32f2f !important;
+  cursor: pointer;
+}
