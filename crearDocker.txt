@@ -1,0 +1,64 @@
+docker run --name ballestas-postgres -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=ballestas_db -p 5432:5432 -v ballestas_pgdata:/var/lib/postgresql/data -d postgres:15-alpine
+
+docker exec -it ballestas-postgres psql -U admin -d ballestas_db
+
+-- 1. Tabla de Categorías
+CREATE TABLE categorias (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    icono VARCHAR(50),
+    descripcion TEXT
+);
+
+-- 2. Tabla de Marcas
+CREATE TABLE marcas (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
+
+-- 3. Tabla de Productos
+CREATE TABLE productos (
+    id SERIAL PRIMARY KEY,
+    categoria_id INT REFERENCES categorias(id),
+    marca_id INT REFERENCES marcas(id),
+    nombre VARCHAR(150) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10,2) NOT NULL,
+    stock INT DEFAULT 0,
+    imagen_url VARCHAR(255),
+    destacado BOOLEAN DEFAULT false
+);
+
+-- 4. Tabla de Usuarios
+CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    es_admin BOOLEAN DEFAULT false,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 5. Tabla de Mensajes de Contacto
+CREATE TABLE mensajes_contacto (
+    id SERIAL PRIMARY KEY,
+    nombre_cliente VARCHAR(150) NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    mensaje TEXT NOT NULL,
+    fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    leido BOOLEAN DEFAULT false
+);
+
+-- Insertar el usuario Administrador inicial
+INSERT INTO usuarios (nombre, email, password, es_admin) 
+VALUES ('Administrador Beni', 'admin@ballestasbeni.com', 'admin123', true);
+
+docker stop ballestas-postgres
+
+
+docker start ballestas-postgres
+
+docker ps
+
+docker exec -it ballestas-postgres psql -U admin -d ballestas_db -c "SELECT * FROM usuarios;"
+
