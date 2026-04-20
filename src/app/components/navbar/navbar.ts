@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Layout } from '../../services/layout';
 import { Auth } from '../../services/auth';
+import { CartService } from '../../services/cart';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,7 @@ export class Navbar {
   // Inyecciones modernas
   private layoutService = inject(Layout);
   private router = inject(Router);
-  
+  public cartService = inject(CartService);
   // Lo hacemos 'public' para poder usarlo en el HTML
   public authService = inject(Auth); 
 

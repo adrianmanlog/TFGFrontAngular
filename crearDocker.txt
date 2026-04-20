@@ -62,3 +62,52 @@ docker ps
 
 docker exec -it ballestas-postgres psql -U admin -d ballestas_db -c "SELECT * FROM usuarios;"
 
+-- Limpiar tablas por si has hecho pruebas previas (El orden importa por las claves foráneas)
+TRUNCATE TABLE productos RESTART IDENTITY CASCADE;
+TRUNCATE TABLE marcas RESTART IDENTITY CASCADE;
+TRUNCATE TABLE categorias RESTART IDENTITY CASCADE;
+
+-- Insertar Categorías Reales
+INSERT INTO categorias (nombre, icono, descripcion) VALUES 
+('Ballestas Completas', 'bi-layers', 'Conjuntos completos de suspensión de ballestas para vehículos pesados.'),
+('Hojas Sueltas (Lamas)', 'bi-dash', 'Hojas individuales para reforzar o reparar ballestas rotas.'),
+('Amortiguadores', 'bi-vinyl', 'Sistemas de amortiguación hidráulica y neumática.'),
+('Abarcones', 'bi-magnet', 'Abarcones de acero forjado a medida para sujeción de ballestas.'),
+('Casquillos y Bulones', 'bi-nut', 'Casquillos de bronce, acero y goma, junto con bulones de engrase.');
+
+-- Insertar Marcas de Camiones/Furgonetas
+INSERT INTO marcas (nombre) VALUES 
+('Volvo'),
+('Scania'),
+('Mercedes-Benz'),
+('Iveco'),
+('DAF'),
+('Renault Trucks'),
+('Nissan (Vehículo Ligero)');
+
+-- Insertar Productos (Cruzando los IDs que acabamos de generar)
+-- Categoria 1 (Ballestas), Categoria 2 (Hojas), Categoria 3 (Amortiguadores), Categoria 4 (Abarcones), Categoria 5 (Casquillos)
+-- Marcas: 1(Volvo), 2(Scania), 3(Mercedes), 4(Iveco), 5(DAF), 6(Renault), 7(Nissan)
+
+INSERT INTO productos (categoria_id, marca_id, nombre, descripcion, precio, stock, destacado) VALUES 
+-- Ballestas
+(1, 1, 'Ballesta Delantera Parabólica Volvo FH', 'Ballesta parabólica de 2 hojas para tren delantero Volvo FH. Ref: VF-123', 350.50, 5, true),
+(1, 2, 'Ballesta Trasera Convencional Scania Serie R', 'Ballesta reforzada de 4 hojas para Scania. Ideal para volquetes. Ref: SC-441', 420.00, 3, true),
+(1, 4, 'Ballesta Delantera Iveco Daily', 'Conjunto de ballesta de suspensión delantera para furgoneta. Ref: IVD-99', 185.00, 10, false),
+
+-- Hojas Sueltas
+(2, 3, 'Hoja Maestra Mercedes Actros', 'Hoja principal con ojos para Mercedes Actros. Medida: 90x40. Ref: MB-HM01', 115.00, 15, false),
+(2, 5, 'Hoja de Refuerzo DAF XF', 'Hoja inferior de refuerzo (Lama) para DAF XF 105. Ref: DF-R02', 85.50, 20, false),
+
+-- Amortiguadores
+(3, 1, 'Amortiguador Neumático Cabina Volvo', 'Fuelle/Amortiguador para suspensión de cabina. Ref: CAB-V01', 65.00, 12, false),
+(3, 6, 'Amortiguador Trasero Eje Renault Magnum', 'Amortiguador hidráulico de doble efecto para eje trasero. Ref: RM-AM09', 145.20, 8, true),
+
+-- Abarcones
+(4, 7, 'Abarcón U con Tuercas Nissan Cabstar', 'Abarcón redondo 14x1.5. Distancia 70mm, largo 200mm. Ref: AB-NS7', 15.50, 50, false),
+(4, 2, 'Abarcón Cuadrado Scania Reforzado', 'Abarcón de alta resistencia para ejes motrices pesados. Ref: AB-SC8', 22.00, 40, false),
+
+-- Casquillos y bulones
+(5, 3, 'Casquillo Silentblock Ojo Ballesta Mercedes', 'Casquillo de acero y goma para ojo de ballesta de 30mm. Ref: CQ-MB30', 25.00, 100, false),
+(5, 1, 'Bulón de Engrase Volvo FH', 'Bulón con engrasador incorporado para mantenimiento de casquillos de bronce. Ref: BU-VF2', 18.00, 60, false),
+(5, 4, 'Casquillo de Bronce Iveco Trakker', 'Casquillo de fricción para trabajo pesado en cantera. Ref: CQ-BRIV', 32.50, 0, false); -- Este tiene stock 0 para que veas el botón desactivado en la web

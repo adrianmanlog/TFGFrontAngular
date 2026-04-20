@@ -1,18 +1,23 @@
 <div class="bg-light min-vh-100 pb-5">
-  
-  <header class="bg-dark text-white text-center py-5 shadow-sm" style="background: linear-gradient(rgba(211, 47, 47, 0.9), rgba(0,0,0,0.8)), url('https://via.placeholder.com/1920x400') center/cover;">
+
+  <header class="bg-dark text-white text-center py-5 shadow-sm"
+    style="background: linear-gradient(rgba(211, 47, 47, 0.9), rgba(0,0,0,0.8)), url('assets/hero-bg.jpg') center/cover;">
     <div class="container py-4">
       <h1 class="display-4 fw-bold text-uppercase mb-3"><i class="bi bi-tools me-3"></i>Tienda del Profesional</h1>
       <p class="lead mb-4">Recambios originales y adaptables para vehículo industrial al mejor precio.</p>
+
       <div class="input-group input-group-lg mx-auto" style="max-width: 600px;">
-        <input type="text" class="form-control border-0 shadow-sm" placeholder="Buscar por referencia, marca o pieza...">
-        <button class="btn btn-warning fw-bold px-4" type="button"><i class="bi bi-search"></i></button>
+        <input type="text" class="form-control border-0 shadow-sm" placeholder="Buscar por referencia, marca o pieza..."
+          [(ngModel)]="terminoBusqueda" (keyup.enter)="buscarEnCatalogo()">
+        <button class="btn btn-warning fw-bold px-4" type="button" (click)="buscarEnCatalogo()"><i
+            class="bi bi-search"></i></button>
       </div>
+
     </div>
   </header>
 
   <div class="container mt-5">
-    
+
     <div class="row g-4 text-center mb-5">
       <div class="col-md-4">
         <div class="p-3 bg-white rounded shadow-sm">
@@ -40,52 +45,67 @@
     <h3 class="fw-bold mb-4 border-bottom pb-2">Comprar por Categoría</h3>
     <div class="row g-4 mb-5">
       @for (categoria of categorias(); track categoria.id) {
-        <div class="col-md-3">
-          <div class="card h-100 border-0 shadow-sm category-card text-center p-4">
-            <i class="bi {{categoria.icono}} display-4 text-secondary mb-3"></i>
-            <h5 class="fw-bold text-dark">{{categoria.nombre}}</h5>
-            <p class="text-muted small">{{categoria.desc}}</p>
-            <a href="#" class="stretched-link"></a>
-          </div>
+      <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm category-card text-center p-4" style="cursor: pointer;"
+          (click)="irACategoria(categoria.id)">
+          <i class="bi {{categoria.icono || 'bi-box'}} display-4 text-secondary mb-3"></i>
+          <h5 class="fw-bold text-dark">{{categoria.nombre}}</h5>
+          <p class="text-muted small">{{categoria.descripcion}}</p>
         </div>
+      </div>
+      } @empty {
+      <div class="col-12 text-center text-muted">Cargando categorías...</div>
       }
     </div>
 
     <h3 class="fw-bold mb-4 border-bottom pb-2">Marcas Oficiales</h3>
     <div class="row g-3 mb-5 text-center align-items-center">
       @for (marca of marcas(); track marca.id) {
-        <div class="col">
-          <div class="bg-white p-3 rounded shadow-sm fw-bold fs-5 text-secondary brand-box">
-            {{marca.nombre}}
-          </div>
+      <div class="col">
+        <div class="bg-white p-3 rounded shadow-sm fw-bold fs-5 text-secondary brand-box" style="cursor: pointer;"
+          (click)="irAMarca(marca.id)">
+          {{marca.nombre}}
         </div>
+      </div>
       }
     </div>
 
     <div class="d-flex justify-content-between align-items-end mb-4 border-bottom pb-2">
       <h3 class="fw-bold mb-0">Productos Destacados</h3>
-      <a href="#" class="text-danger text-decoration-none fw-bold">Ver todo el catálogo <i class="bi bi-arrow-right"></i></a>
+      <a routerLink="/catalogo" class="text-danger text-decoration-none fw-bold">Ver todo el catálogo <i
+          class="bi bi-arrow-right"></i></a>
     </div>
-    
+
     <div class="row g-4">
       @for (producto of productosDestacados(); track producto.id) {
-        <div class="col-md-3">
-          <div class="card h-100 border-0 shadow-sm product-card">
-            <span class="badge bg-success position-absolute top-0 start-0 m-3 z-1">En Stock</span>
-            
-            <img [src]="producto.imagen" class="card-img-top" [alt]="producto.nombre">
-            
-            <div class="card-body d-flex flex-column">
-              <h6 class="card-title fw-semibold text-muted mb-3">{{producto.nombre}}</h6>
-              <div class="mt-auto">
-                <p class="text-danger fw-bold fs-4 mb-3">{{producto.precio | number:'1.2-2'}} € <span class="fs-6 text-muted fw-normal">+ IVA</span></p>
-                <button class="btn btn-outline-danger w-100 fw-bold">
-                  <i class="bi bi-cart-plus me-2"></i>Añadir
-                </button>
-              </div>
+      <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm product-card">
+
+          @if (producto.stock > 0) {
+          <span class="badge bg-success position-absolute top-0 start-0 m-3 z-1">En Stock</span>
+          } @else {
+          <span class="badge bg-danger position-absolute top-0 start-0 m-3 z-1">Agotado</span>
+          }
+
+          <img [src]="producto.imagen_url || 'assets/placeholder-product.jpg'" style="height: 200px; object-fit: cover;"
+            class="card-img-top" [alt]="producto.nombre">
+
+          <div class="card-body d-flex flex-column">
+            <h6 class="card-title fw-semibold text-muted mb-3">{{producto.nombre}}</h6>
+            <div class="mt-auto">
+              <p class="text-danger fw-bold fs-4 mb-3">{{producto.precio | number:'1.2-2'}} € <span
+                  class="fs-6 text-muted fw-normal">+ IVA</span></p>
+
+              <button class="btn btn-outline-danger w-100 fw-bold" [disabled]="producto.stock === 0"
+                (click)="cartService.addToCart(producto)">
+                <i class="bi bi-cart-plus me-2"></i> Añadir
+              </button>
             </div>
           </div>
         </div>
+      </div>
+      } @empty {
+      <div class="col-12 text-center text-muted">Cargando productos destacados...</div>
       }
     </div>
 
