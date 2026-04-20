@@ -27,3 +27,26 @@ export interface CartItem {
   producto: Producto;
   cantidad: number;
 }
+export interface LineaPedido {
+  id: number;
+  cantidad: number;
+  precio_unitario: string;
+  producto?: Producto;
+}
+
+export interface Pedido {
+  id: number;
+  total: string;
+  estado: string;
+  fecha_pedido: string;
+  lineas?: LineaPedido[];
+}
+export interface Pedido {
+  id: number;
+  total: string;
+  estado: string;
+  fecha_pedido: string;
+  usuario_id?: number;
+  usuario?: any;
+  lineas?: LineaPedido[];
+}

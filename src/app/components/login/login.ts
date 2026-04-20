@@ -19,7 +19,6 @@ export class Login {
     password: ['', [Validators.required]]
   });
 
-  // Usamos Signals para el estado de la interfaz
   errorMensaje = signal<string>('');
 
   onSubmit() {

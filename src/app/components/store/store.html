@@ -87,11 +87,18 @@
           <span class="badge bg-danger position-absolute top-0 start-0 m-3 z-1">Agotado</span>
           }
 
-          <img [src]="producto.imagen_url || 'assets/placeholder-product.jpg'" style="height: 200px; object-fit: cover;"
-            class="card-img-top" [alt]="producto.nombre">
+          <a [routerLink]="['/producto', producto.id]" style="cursor: pointer; display: block;">
+            <img [src]="producto.imagen_url || 'assets/placeholder-product.jpg'" style="height: 200px; width: 100%; object-fit: cover;"
+              class="card-img-top" [alt]="producto.nombre">
+          </a>
 
           <div class="card-body d-flex flex-column">
-            <h6 class="card-title fw-semibold text-muted mb-3">{{producto.nombre}}</h6>
+            <h6 class="card-title fw-semibold text-muted mb-3">
+              <a [routerLink]="['/producto', producto.id]" class="text-decoration-none text-muted">
+                {{producto.nombre}}
+              </a>
+            </h6>
+            
             <div class="mt-auto">
               <p class="text-danger fw-bold fs-4 mb-3">{{producto.precio | number:'1.2-2'}} € <span
                   class="fs-6 text-muted fw-normal">+ IVA</span></p>

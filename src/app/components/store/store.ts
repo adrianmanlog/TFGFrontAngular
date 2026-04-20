@@ -39,7 +39,6 @@ export class StoreComponent implements OnInit {
     });
   }
 
-  // NUEVA FUNCIÓN PARA LAS MARCAS
   irAMarca(id: number) {
     this.router.navigate(['/catalogo'], {
       queryParams: { marca: id }

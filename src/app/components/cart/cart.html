@@ -1,17 +1,36 @@
 <div class="container py-5 min-vh-100">
   <h2 class="fw-bold mb-4"><i class="bi bi-cart3 me-2"></i>Tu Carrito de Compra</h2>
 
-  @if (cartService.items().length === 0) {
+  @if (pagoCompletado()) {
+    <div class="card border-0 shadow text-center p-5 rounded-4 mt-4">
+      <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+      <h2 class="fw-bold mt-4">¡Pago completado con éxito!</h2>
+      <p class="lead text-muted">Tu pedido se está preparando en nuestros almacenes.</p>
+      
+      <div class="bg-light p-4 rounded-3 d-inline-block mx-auto my-4 text-start border">
+        <h5 class="fw-bold mb-3 border-bottom pb-2">Ticket de Compra</h5>
+        <p class="mb-1"><strong>Número de Pedido:</strong> #000{{ numeroPedido() }}</p>
+        <p class="mb-1"><strong>Estado:</strong> <span class="badge bg-success">Pagado</span></p>
+        <p class="mb-0"><strong>Fecha:</strong> Hoy</p>
+      </div>
+
+      <div>
+        <button class="btn btn-dark px-4 py-2 fw-bold" routerLink="/catalogo">Volver a la tienda</button>
+      </div>
+    </div>
+  } 
+  
+  @else if (cartService.items().length === 0) {
     <div class="text-center py-5">
       <i class="bi bi-cart-x display-1 text-muted mb-3"></i>
       <h4 class="text-muted">Tu carrito está vacío</h4>
-      <p class="text-secondary mb-4">¡Parece que aún no has añadido ningún recambio!</p>
-      <button class="btn btn-danger btn-lg fw-bold shadow-sm" routerLink="/catalogo">
-        Ir al Catálogo
-      </button>
+      <button class="btn btn-danger btn-lg fw-bold shadow-sm mt-3" routerLink="/catalogo">Ir al Catálogo</button>
     </div>
-  } @else {
+  } 
+  
+  @else {
     <div class="row g-4">
+      
       <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
           <div class="card-body p-0">
@@ -62,26 +81,29 @@
             <h5 class="fw-bold mb-4 border-bottom pb-2">Resumen del Pedido</h5>
             
             <div class="d-flex justify-content-between mb-3">
-              <span class="text-muted">Subtotal ({{ cartService.totalCantidad() }} art.)</span>
+              <span class="text-muted">Subtotal</span>
               <span class="fw-bold">{{ cartService.totalPrecio() | number:'1.2-2' }} €</span>
             </div>
             <div class="d-flex justify-content-between mb-3">
               <span class="text-muted">IVA (21%)</span>
               <span class="fw-bold">{{ (cartService.totalPrecio() * 0.21) | number:'1.2-2' }} €</span>
             </div>
-            <div class="d-flex justify-content-between mb-4 border-bottom pb-3">
-              <span class="text-muted">Envío</span>
-              <span class="text-success fw-bold">Gratis</span>
-            </div>
             
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <span class="fs-5 fw-bold">Total</span>
+            <div class="d-flex justify-content-between align-items-center mb-4 border-top pt-3 mt-3">
+              <span class="fs-5 fw-bold">Total a Pagar</span>
               <span class="fs-3 fw-bold text-danger">{{ (cartService.totalPrecio() * 1.21) | number:'1.2-2' }} €</span>
             </div>
 
-            <button class="btn btn-dark btn-lg w-100 fw-bold shadow-sm">
-              Tramitar Pedido <i class="bi bi-credit-card ms-2"></i>
-            </button>
+            @if (procesandoPago()) {
+              <button class="btn btn-dark btn-lg w-100 fw-bold shadow-sm" disabled>
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Conectando con el Banco...
+              </button>
+            } @else {
+              <button class="btn btn-dark btn-lg w-100 fw-bold shadow-sm" (click)="tramitarPedido()">
+                Tramitar Pedido <i class="bi bi-credit-card ms-2"></i>
+              </button>
+            }
           </div>
         </div>
       </div>

@@ -1,0 +1,21 @@
+<div class="card shadow-sm border-0">
+  <div class="card-body p-4">
+    <h4 class="fw-bold mb-4">Nueva Categoría</h4>
+    
+    @if (success()) {
+      <div class="alert alert-success">Categoría creada correctamente</div>
+    }
+
+    <form [formGroup]="catForm" (ngSubmit)="enviar()">
+      <div class="mb-3">
+        <label class="form-label fw-bold">Nombre de la Categoría</label>
+        <input type="text" class="form-control" formControlName="nombre" placeholder="Ej: Amortiguadores">
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-bold">Icono (Bootstrap Icon)</label>
+        <input type="text" class="form-control" formControlName="icono" placeholder="Ej: bi-gear">
+      </div>
+      <button type="submit" class="btn btn-danger px-4 fw-bold" [disabled]="catForm.invalid">Crear Categoría</button>
+    </form>
+  </div>
+</div>

@@ -24,4 +24,7 @@ export class ProductoService {
   getProductosDestacados(): Observable<Producto[]> {
     return this.http.get<Producto[]>(`${this.apiUrl}/productos/destacados`);
   }
+  getProductoById(id: number): Observable<Producto> {
+    return this.http.get<Producto>(`${this.apiUrl}/productos/${id}`);
+  }
 }

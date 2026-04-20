@@ -20,7 +20,6 @@ export class Register {
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
-  // Estado reactivo con Signals
   errorMensaje = signal<string>('');
 
   onSubmit() {

@@ -11,14 +11,11 @@ import { CartService } from '../../services/cart';
   styleUrl: './navbar.css',
 })
 export class Navbar {
-  // Inyecciones modernas
   private layoutService = inject(Layout);
   private router = inject(Router);
   public cartService = inject(CartService);
-  // Lo hacemos 'public' para poder usarlo en el HTML
   public authService = inject(Auth); 
 
-  // Exponemos el Signal del modo tienda
   isStoreMode = this.layoutService.isStoreMode;
 
   toggleInterface() {
@@ -32,7 +29,6 @@ export class Navbar {
     }
   }
 
-  // Función para cerrar sesión y volver al inicio
   logout() {
     this.authService.logout();
     this.router.navigate(['/']);

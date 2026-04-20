@@ -32,14 +32,19 @@
           <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
 
             @if (authService.isAdmin()) {
-            <li><a class="dropdown-item fw-bold text-danger" href="#"><i class="bi bi-shield-lock me-2"></i>Panel
-                Admin</a></li>
+            <li>
+              <a class="dropdown-item fw-bold text-danger" routerLink="/admin" style="cursor: pointer;">
+                <i class="bi bi-shield-lock me-2"></i>Panel Admin
+              </a>
+            </li>
             <li>
               <hr class="dropdown-divider">
             </li>
             }
 
-            <li><a class="dropdown-item" href="#"><i class="bi bi-bag-check me-2"></i>Mis Pedidos</a></li>
+            <li>
+              <a class="dropdown-item" routerLink="/mis-pedidos" style="cursor: pointer;">Mis Pedidos</a>
+            </li>
             <li><a class="dropdown-item" href="#"><i class="bi bi-person-vcard me-2"></i>Mi Perfil</a></li>
             <li>
               <hr class="dropdown-divider">

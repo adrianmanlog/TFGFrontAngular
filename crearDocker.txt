@@ -49,6 +49,24 @@ CREATE TABLE mensajes_contacto (
     leido BOOLEAN DEFAULT false
 );
 
+-- Tabla Principal de Pedidos
+CREATE TABLE pedidos (
+    id SERIAL PRIMARY KEY,
+    usuario_id INT REFERENCES usuarios(id) ON DELETE SET NULL,
+    total DECIMAL(10,2) NOT NULL,
+    estado VARCHAR(50) DEFAULT 'Pendiente', -- Pendiente, Pagado, Enviado, Cancelado
+    fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla de los Productos dentro de cada Pedido
+CREATE TABLE lineas_pedido (
+    id SERIAL PRIMARY KEY,
+    pedido_id INT REFERENCES pedidos(id) ON DELETE CASCADE,
+    producto_id INT REFERENCES productos(id) ON DELETE SET NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL -- Se guarda el precio en el momento de la compra
+);
+
 -- Insertar el usuario Administrador inicial
 INSERT INTO usuarios (nombre, email, password, es_admin) 
 VALUES ('Administrador Beni', 'admin@ballestasbeni.com', 'admin123', true);

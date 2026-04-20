@@ -2,14 +2,15 @@ import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductoService } from '../../services/producto';
 import { Producto, Categoria, Marca } from '../../models/tienda.model';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { DecimalPipe } from '@angular/common'; // Importante para el formato de precios
+import { DecimalPipe } from '@angular/common';
 import { CartService } from '../../services/cart';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [FormsModule, DecimalPipe],
+  imports: [FormsModule, DecimalPipe,RouterLink],
   templateUrl: './catalogo.html'
 })
 export class CatalogoComponent implements OnInit {
@@ -18,13 +19,12 @@ export class CatalogoComponent implements OnInit {
   public cartService = inject(CartService);
   productos = signal<Producto[]>([]);
   categorias = signal<Categoria[]>([]);
-  marcas = signal<Marca[]>([]); // Nuevo Signal de Marcas
+  marcas = signal<Marca[]>([]);
 
   busqueda = signal<string>('');
   categoriaSeleccionada = signal<number | null>(null);
-  marcaSeleccionada = signal<number | null>(null); // Nuevo filtro de Marca
+  marcaSeleccionada = signal<number | null>(null);
 
-  // Cruce de todos los filtros reactivos
   productosFiltrados = computed(() => {
     let lista = this.productos();
 
@@ -47,12 +47,10 @@ export class CatalogoComponent implements OnInit {
   });
 
   ngOnInit() {
-    // Cargar todos los datos
     this.productoService.getCategorias().subscribe(res => this.categorias.set(res));
     this.productoService.getMarcas().subscribe(res => this.marcas.set(res));
     this.productoService.getProductos().subscribe(res => this.productos.set(res));
 
-    // Escuchar los parámetros de la URL
     this.route.queryParams.subscribe(params => {
       if (params['categoria']) {
         this.categoriaSeleccionada.set(Number(params['categoria']));
