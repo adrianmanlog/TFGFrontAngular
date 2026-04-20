@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs';
 import { Layout } from '../../services/layout';
 import { Auth } from '../../services/auth';
 import { CartService } from '../../services/cart';
@@ -11,12 +12,25 @@ import { CartService } from '../../services/cart';
   styleUrl: './navbar.css',
 })
 export class Navbar {
-  private layoutService = inject(Layout);
+  public layoutService = inject(Layout);
   private router = inject(Router);
   public cartService = inject(CartService);
   public authService = inject(Auth); 
 
   isStoreMode = this.layoutService.isStoreMode;
+
+  constructor() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      if (event.url === '/' || event.url === '/nosotros') {
+        this.layoutService.setStoreMode(false);
+      } 
+      else if (event.url.includes('/catalogo') || event.url.includes('/carrito') || event.url.includes('/admin') || event.url.includes('/mis-pedidos')) {
+        this.layoutService.setStoreMode(true);
+      }
+    });
+  }
 
   toggleInterface() {
     const currentState = this.isStoreMode();
@@ -25,12 +39,13 @@ export class Navbar {
       this.router.navigate(['/']);
     } else {
       this.layoutService.setStoreMode(true);
-      this.router.navigate(['/tienda']);
+      this.router.navigate(['/tienda']); 
     }
   }
 
   logout() {
     this.authService.logout();
+    this.layoutService.setStoreMode(false);
     this.router.navigate(['/']);
   }
 }
