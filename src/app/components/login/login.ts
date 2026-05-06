@@ -16,7 +16,8 @@ export class Login {
 
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]]
+    password: ['', [Validators.required]],
+    codigo_2fa: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]] // Campo añadido
   });
 
   errorMensaje = signal<string>('');
@@ -28,7 +29,9 @@ export class Login {
           this.router.navigate(['/tienda']);
         },
         error: (err) => {
-          this.errorMensaje.set('Correo o contraseña incorrectos.');
+          // Extraemos el mensaje de error del backend (Credenciales o código inválido)
+          const msg = err.error?.message || 'Correo, contraseña o código incorrectos.';
+          this.errorMensaje.set(msg);
         }
       });
     }

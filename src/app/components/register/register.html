@@ -1,29 +1,46 @@
 <div class="container py-5 min-vh-100 d-flex align-items-center justify-content-center">
   <div class="card shadow border-0" style="width: 100%; max-width: 450px;">
     <div class="card-body p-5">
-      <h3 class="fw-bold mb-4 text-center">Crear Cuenta</h3>
       
-      @if (errorMensaje()) {
-        <div class="alert alert-danger py-2">{{ errorMensaje() }}</div>
+      @if (!registroCompletado()) {
+        <h3 class="fw-bold mb-4 text-center">Crear Cuenta</h3>
+        
+        @if (errorMensaje()) {
+          <div class="alert alert-danger py-2">{{ errorMensaje() }}</div>
+        }
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label class="form-label text-muted small fw-bold">Nombre o Taller</label>
+            <input type="text" class="form-control form-control-lg bg-light" formControlName="nombre" placeholder="Ej: Talleres Paco">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-muted small fw-bold">Correo Electrónico</label>
+            <input type="email" class="form-control form-control-lg bg-light" formControlName="email" placeholder="nombre@ejemplo.com">
+          </div>
+          <div class="mb-4">
+            <label class="form-label text-muted small fw-bold">Contraseña</label>
+            <input type="password" class="form-control form-control-lg bg-light" formControlName="password" placeholder="Mínimo 6 caracteres">
+          </div>
+          <button type="submit" class="btn btn-dark btn-lg w-100 fw-bold" [disabled]="registerForm.invalid">Registrarse</button>
+        </form>
+        
+        <p class="text-center mt-4 mb-0 text-muted">¿Ya tienes cuenta? <a routerLink="/login" class="text-danger fw-bold text-decoration-none">Inicia Sesión</a></p>
+      } @else {
+        <h3 class="fw-bold mb-3 text-center text-success"><i class="bi bi-shield-check me-2"></i>¡Registro Exitoso!</h3>
+        <div class="alert alert-warning text-center">
+          <p class="mb-2 fw-bold">Último paso: Seguridad 2FA</p>
+          <p class="small mb-3">Abre <strong>Google Authenticator</strong> en tu móvil y escanea este código QR. Lo necesitarás para iniciar sesión.</p>
+          
+          <div class="bg-white p-2 d-inline-block rounded shadow-sm mb-3" [innerHTML]="qrCodeSeguro()"></div>
+          
+          <p class="text-muted small mb-0">Si no puedes escanearlo, introduce esta clave manual:</p>
+          <code class="fs-5">{{ secretKey() }}</code>
+        </div>
+        
+        <button class="btn btn-danger btn-lg w-100 fw-bold mt-3" routerLink="/login">Ya lo he escaneado, ir al Login</button>
       }
 
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-          <label class="form-label text-muted small fw-bold">Nombre o Taller</label>
-          <input type="text" class="form-control form-control-lg bg-light" formControlName="nombre" placeholder="Ej: Talleres Paco">
-        </div>
-        <div class="mb-3">
-          <label class="form-label text-muted small fw-bold">Correo Electrónico</label>
-          <input type="email" class="form-control form-control-lg bg-light" formControlName="email" placeholder="nombre@ejemplo.com">
-        </div>
-        <div class="mb-4">
-          <label class="form-label text-muted small fw-bold">Contraseña</label>
-          <input type="password" class="form-control form-control-lg bg-light" formControlName="password" placeholder="Mínimo 6 caracteres">
-        </div>
-        <button type="submit" class="btn btn-dark btn-lg w-100 fw-bold" [disabled]="registerForm.invalid">Registrarse</button>
-      </form>
-      
-      <p class="text-center mt-4 mb-0 text-muted">¿Ya tienes cuenta? <a routerLink="/login" class="text-danger fw-bold text-decoration-none">Inicia Sesión</a></p>
     </div>
   </div>
 </div>

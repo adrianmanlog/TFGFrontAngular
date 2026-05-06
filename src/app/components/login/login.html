@@ -12,10 +12,16 @@
           <label class="form-label text-muted small fw-bold">Correo Electrónico</label>
           <input type="email" class="form-control form-control-lg bg-light" formControlName="email" placeholder="nombre@ejemplo.com">
         </div>
-        <div class="mb-4">
+        <div class="mb-3">
           <label class="form-label text-muted small fw-bold">Contraseña</label>
           <input type="password" class="form-control form-control-lg bg-light" formControlName="password" placeholder="••••••••">
         </div>
+        
+        <div class="mb-4">
+          <label class="form-label text-muted small fw-bold">Código Authenticator (6 dígitos)</label>
+          <input type="text" class="form-control form-control-lg border-danger text-center tracking-widest fw-bold" formControlName="codigo_2fa" placeholder="000000" maxlength="6">
+        </div>
+
         <button type="submit" class="btn btn-danger btn-lg w-100 fw-bold" [disabled]="loginForm.invalid">Entrar</button>
       </form>
       
