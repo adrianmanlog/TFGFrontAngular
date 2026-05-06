@@ -77,3 +77,32 @@
     </form>
   </div>
 </div>
+<div class="card shadow-sm border-0 mt-4">
+  <div class="card-body p-4 bg-light rounded">
+    <h4 class="fw-bold mb-3 text-success">
+      <i class="bi bi-file-earmark-spreadsheet me-2"></i>Importación Masiva (Excel / CSV)
+    </h4>
+    
+    @if (importMsg()) {
+      <div class="alert alert-info fw-bold">
+        <i class="bi bi-info-circle me-2"></i>{{ importMsg() }}
+      </div>
+    }
+
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <label class="form-label fw-bold">Selecciona tu archivo (.csv)</label>
+        <input type="file" class="form-control border-success" accept=".csv" (change)="seleccionarArchivo($event)">
+        <small class="text-muted mt-2 d-block">
+          <strong>Formato del Excel (7 columnas obligatorias):</strong> Nombre | ID Categoría | ID Marca | Precio | Stock | URL Imagen | Descripción. <br>
+          <em>Recuerda guardar tu archivo Excel usando la opción "Guardar como -> CSV (delimitado por comas)".</em>
+        </small>
+      </div>
+      <div class="col-md-4 text-end mt-3 mt-md-0">
+        <button class="btn btn-success btn-lg fw-bold shadow-sm" [disabled]="!archivoSeleccionado" (click)="subirArchivo()">
+          <i class="bi bi-cloud-arrow-up me-2"></i>Importar Catálogo
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

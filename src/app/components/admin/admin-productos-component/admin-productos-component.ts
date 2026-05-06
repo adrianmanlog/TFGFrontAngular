@@ -18,6 +18,9 @@ export class AdminProductosComponent implements OnInit {
   marcas = signal<Marca[]>([]);
   successMsg = signal(false);
 
+  archivoSeleccionado: File | null = null;
+  importMsg = signal<string>('');
+
   productForm: FormGroup = this.fb.group({
     nombre: ['', [Validators.required]],
     descripcion: [''],
@@ -40,6 +43,36 @@ export class AdminProductosComponent implements OnInit {
         this.successMsg.set(true);
         this.productForm.reset({precio: 0, stock: 0, destacado: false});
         setTimeout(() => this.successMsg.set(false), 3000);
+      });
+    }
+  }
+
+  seleccionarArchivo(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.archivoSeleccionado = file;
+    }
+  }
+
+  subirArchivo() {
+    if (this.archivoSeleccionado) {
+      const formData = new FormData();
+      formData.append('archivo', this.archivoSeleccionado);
+
+      this.importMsg.set('Importando productos, por favor espera...');
+
+      this.http.post('http://localhost:8000/api/productos/importar', formData).subscribe({
+        next: (res: any) => {
+          this.importMsg.set('✅ ' + res.message);
+          this.archivoSeleccionado = null;
+          
+          setTimeout(() => this.importMsg.set(''), 5000);
+        },
+        error: (err) => {
+          console.error(err);
+          this.importMsg.set('❌ Error al importar. Comprueba el formato del archivo CSV.');
+          setTimeout(() => this.importMsg.set(''), 5000);
+        }
       });
     }
   }
