@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Pedido } from '../../../models/tienda.model';
 import { DecimalPipe, DatePipe } from '@angular/common';
@@ -15,6 +15,24 @@ export class AdminPedidosComponent implements OnInit {
   pedidos = signal<Pedido[]>([]);
   cargando = signal<boolean>(true);
   descargandoId = signal<number | null>(null);
+  textoBusqueda = signal<string>('');
+
+  pedidosFiltrados = computed(() => {
+    const termino = this.textoBusqueda().toLowerCase().trim();
+    const lista = this.pedidos();
+
+    if (!termino) return lista;
+
+    return lista.filter(pedido => {
+      const nombreCliente = pedido.usuario?.nombre?.toLowerCase() || '';
+      return nombreCliente.includes(termino);
+    });
+  });
+
+  actualizarBusqueda(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.textoBusqueda.set(input.value);
+  }
 
   ngOnInit() {
     this.http.get<Pedido[]>('http://localhost:8000/api/pedidos').subscribe({
