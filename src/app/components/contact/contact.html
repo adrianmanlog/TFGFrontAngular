@@ -7,7 +7,7 @@
         <p class="text-muted fs-5 mb-4">Visítanos en nuestro taller o mándanos un mensaje para pedir presupuesto.</p>
         
         <ul class="list-unstyled mb-4 fs-5">
-          <li class="mb-3">📍 <strong class="text-dark">Dirección:</strong> Polígono Industrial la Portalada, Av. Aragón, 44, 26006 Varea, La Rioja</li>
+          <li class="mb-3">📍 <strong class="text-dark">Dirección:</strong> Polígono Industrial la Portalada...</li>
           <li class="mb-3">📞 <strong class="text-dark">Teléfono:</strong> 941234003</li>
           <li class="mb-3">✉️ <strong class="text-dark">Email:</strong> ballestasbeni@ballestasbeni.com</li>
           <li class="mb-3">🕒 <strong class="text-dark">Horario:</strong> L-V: 08:00 - 19:00</li>
@@ -21,21 +21,28 @@
       <div class="col-lg-6">
         <div class="card border-0 shadow p-4 p-md-5 h-100 bg-dark text-white">
           <h3 class="fw-bold mb-4 text-danger">Envíanos tu consulta</h3>
-          <form>
+          
+          @if (mensajeExito()) { <div class="alert alert-success">{{ mensajeExito() }}</div> }
+          @if (mensajeError()) { <div class="alert alert-danger">{{ mensajeError() }}</div> }
+
+          <form [formGroup]="contactoForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
               <label class="form-label text-light">Nombre completo</label>
-              <input type="text" class="form-control form-control-lg bg-secondary border-0 text-white" placeholder="Ej: Ballestas Beni">
+              <input type="text" class="form-control form-control-lg bg-secondary border-0 text-white" formControlName="nombre" placeholder="Ej: Talleres Paco">
             </div>
             <div class="mb-3">
               <label class="form-label text-light">Teléfono</label>
-              <input type="tel" class="form-control form-control-lg bg-secondary border-0 text-white" placeholder="Tu número">
+              <input type="tel" class="form-control form-control-lg bg-secondary border-0 text-white" formControlName="telefono" placeholder="Tu número">
             </div>
             <div class="mb-4">
               <label class="form-label text-light">¿En qué te podemos ayudar?</label>
-              <textarea class="form-control bg-secondary border-0 text-white" rows="5" placeholder="Indica tipo de vehículo, avería..."></textarea>
+              <textarea class="form-control bg-secondary border-0 text-white" rows="5" formControlName="mensaje" placeholder="Indica avería..."></textarea>
             </div>
-            <button type="submit" class="btn btn-danger btn-lg w-100 fw-bold">Enviar Mensaje</button>
+            <button type="submit" class="btn btn-danger btn-lg w-100 fw-bold" [disabled]="contactoForm.invalid || enviando()">
+              {{ enviando() ? 'Enviando...' : 'Enviar Mensaje' }}
+            </button>
           </form>
+
         </div>
       </div>
 
