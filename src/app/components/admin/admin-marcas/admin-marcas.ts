@@ -20,7 +20,7 @@ export class AdminMarcasComponent {
 
   enviar() {
     if (this.marcaForm.valid) {
-      this.http.post('http://localhost:8000/api/marcas', this.marcaForm.value).subscribe({
+      this.http.post('https://tfgbacklaravel.onrender.com/api/marcas', this.marcaForm.value).subscribe({
         next: (res) => {
           this.success.set(true);
           this.marcaForm.reset();

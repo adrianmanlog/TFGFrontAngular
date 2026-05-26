@@ -8,7 +8,7 @@ import { Producto, Categoria, Marca } from '../models/tienda.model';
 })
 export class ProductoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = 'https://tfgbacklaravel.onrender.com/api';
 
   getProductos(): Observable<Producto[]> {
     return this.http.get<Producto[]>(`${this.apiUrl}/productos`);

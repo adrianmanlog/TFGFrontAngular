@@ -46,7 +46,7 @@ export class CartComponent {
       items: this.cartService.items()
     };
 
-    this.http.post('http://localhost:8000/api/procesar-pago', payload).subscribe({
+    this.http.post('https://tfgbacklaravel.onrender.com/api/procesar-pago', payload).subscribe({
       next: (res: any) => {
         this.procesandoPago.set(false);
         this.pagoCompletado.set(true);

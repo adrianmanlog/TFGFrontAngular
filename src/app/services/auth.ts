@@ -10,7 +10,7 @@ export class Auth {
   private http = inject(HttpClient);
   private router = inject(Router);  
   private cartService = inject(CartService);  
-  private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = 'https://tfgbacklaravel.onrender.com/api';
 
   currentUser = signal<any>(null);
   token = signal<string | null>(localStorage.getItem('auth_token'));

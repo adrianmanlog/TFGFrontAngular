@@ -23,7 +23,7 @@ export class MisPedidosComponent implements OnInit {
   ngOnInit() {
     const usuario = this.authService.currentUser();
     if (usuario) {
-      this.http.get<Pedido[]>(`http://localhost:8000/api/usuarios/${usuario.id}/pedidos`).subscribe({
+      this.http.get<Pedido[]>(`https://tfgbacklaravel.onrender.com/api/usuarios/${usuario.id}/pedidos`).subscribe({
         next: (res) => {
           this.pedidos.set(res);
           this.cargando.set(false);
@@ -41,7 +41,7 @@ export class MisPedidosComponent implements OnInit {
   descargarFactura(pedidoId: number) {
     this.descargandoId.set(pedidoId);
     
-    this.http.get(`http://localhost:8000/api/pedidos/${pedidoId}/factura`, { responseType: 'blob' })
+    this.http.get(`https://tfgbacklaravel.onrender.com/api/pedidos/${pedidoId}/factura`, { responseType: 'blob' })
       .subscribe({
         next: (blob) => {
           const url = window.URL.createObjectURL(blob);

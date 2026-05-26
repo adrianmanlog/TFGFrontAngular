@@ -39,7 +39,7 @@ export class AdminProductosComponent implements OnInit {
 
   guardarProducto() {
     if (this.productForm.valid) {
-      this.http.post('http://localhost:8000/api/productos', this.productForm.value).subscribe(() => {
+      this.http.post('https://tfgbacklaravel.onrender.com/api/productos', this.productForm.value).subscribe(() => {
         this.successMsg.set(true);
         this.productForm.reset({precio: 0, stock: 0, destacado: false});
         setTimeout(() => this.successMsg.set(false), 3000);
@@ -61,7 +61,7 @@ export class AdminProductosComponent implements OnInit {
 
       this.importMsg.set('Importando productos, por favor espera...');
 
-      this.http.post('http://localhost:8000/api/productos/importar', formData).subscribe({
+      this.http.post('https://tfgbacklaravel.onrender.com/api/productos/importar', formData).subscribe({
         next: (res: any) => {
           this.importMsg.set('✅ ' + res.message);
           this.archivoSeleccionado = null;

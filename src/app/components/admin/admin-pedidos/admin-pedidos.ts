@@ -35,7 +35,7 @@ export class AdminPedidosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get<Pedido[]>('http://localhost:8000/api/pedidos').subscribe({
+    this.http.get<Pedido[]>('https://tfgbacklaravel.onrender.com/api/pedidos').subscribe({
       next: (res) => {
         this.pedidos.set(res);
         this.cargando.set(false);
@@ -50,7 +50,7 @@ export class AdminPedidosComponent implements OnInit {
   descargarFactura(pedidoId: number) {
     this.descargandoId.set(pedidoId);
     
-    this.http.get(`http://localhost:8000/api/pedidos/${pedidoId}/factura`, { responseType: 'blob' })
+    this.http.get(`https://tfgbacklaravel.onrender.com/api/pedidos/${pedidoId}/factura`, { responseType: 'blob' })
       .subscribe({
         next: (blob) => {
           const url = window.URL.createObjectURL(blob);

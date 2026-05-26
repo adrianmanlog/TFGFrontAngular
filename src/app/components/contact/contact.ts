@@ -28,7 +28,7 @@ export class Contact {
       this.mensajeExito.set('');
       this.mensajeError.set('');
 
-      this.http.post('http://localhost:8000/api/contacto', this.contactoForm.value).subscribe({
+      this.http.post('https://tfgbacklaravel.onrender.com/api/contacto', this.contactoForm.value).subscribe({
         next: () => {
           this.enviando.set(false);
           this.mensajeExito.set('¡Mensaje enviado con éxito! Te responderemos pronto.');

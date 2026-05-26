@@ -22,7 +22,7 @@ export class AdminCategoriasComponent {
 
   enviar() {
     if (this.catForm.valid) {
-      this.http.post('http://localhost:8000/api/categorias', this.catForm.value).subscribe({
+      this.http.post('https://tfgbacklaravel.onrender.com/api/categorias', this.catForm.value).subscribe({
         next: (res) => {
           this.success.set(true);
           this.catForm.reset();
