@@ -1,0 +1,28 @@
+<div class="modal-backdrop-custom">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header bg-warning text-dark border-0 py-3">
+        <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Editar Marca Oficial</h5>
+        <button type="button" class="btn-close" (click)="cerrar.emit()"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form [formGroup]="editForm" (ngSubmit)="actualizar()">
+          <div class="mb-3">
+            <label class="form-label fw-bold">Nombre del Fabricante / Marca</label>
+            <input type="text" class="form-control" formControlName="nombre">
+          </div>
+          <div class="d-flex justify-content-end mt-4 gap-2">
+            <button type="button" class="btn btn-light px-4 fw-bold" (click)="cerrar.emit()">Cancelar</button>
+            <button type="submit" class="btn btn-warning px-4 fw-bold" [disabled]="editForm.invalid || cargando()">
+              @if (cargando()) {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+              } @else {
+                Guardar Fabricante
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

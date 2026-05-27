@@ -1,0 +1,18 @@
+.modal-backdrop-custom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1050;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-dialog {
+  width: 100%;
+  max-width: 800px; /* Al tener más campos, ensanchamos el modal */
+  margin: 1.75rem;
+}

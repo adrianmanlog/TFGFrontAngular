@@ -1,0 +1,68 @@
+<div class="modal-backdrop-custom">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header bg-warning text-dark border-0 py-3">
+        <h5 class="modal-title fw-bold"><i class="bi bi-box-seam-fill me-2"></i>Modificar Ficha de Producto</h5>
+        <button type="button" class="btn-close" (click)="cerrar.emit()"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form [formGroup]="editForm" (ngSubmit)="actualizar()">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <label class="form-label fw-bold">Nombre Comercial</label>
+              <input type="text" class="form-control" formControlName="nombre">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Categoría</label>
+              <select class="form-select" formControlName="categoria_id">
+                @for (cat of categoriasLista; track cat.id) {
+                  <option [value]="cat.id">{{ cat.nombre }}</option>
+                }
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Marca</label>
+              <select class="form-select" formControlName="marca_id">
+                @for (m of marcasLista; track m.id) {
+                  <option [value]="m.id">{{ m.nombre }}</option>
+                }
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Precio Unitario (€)</label>
+              <input type="number" step="0.01" class="form-control" formControlName="precio">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Stock Almacén</label>
+              <input type="number" class="form-control" formControlName="stock">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">URL Imagen</label>
+              <input type="text" class="form-control" formControlName="imagen_url">
+            </div>
+            <div class="col-md-12">
+              <label class="form-label fw-bold">Especificaciones / Descripción</label>
+              <textarea class="form-control" formControlName="descripcion" rows="3"></textarea>
+            </div>
+            <div class="col-md-12">
+              <div class="form-check form-switch mt-2">
+                <input class="form-check-input" type="checkbox" id="editDestacado" formControlName="destacado">
+                <label class="form-check-label fw-bold" for="editDestacado">Fijar en portada como destacado</label>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end mt-4 gap-2">
+            <button type="button" class="btn btn-light px-4 fw-bold" (click)="cerrar.emit()">Cancelar</button>
+            <button type="submit" class="btn btn-warning px-4 fw-bold" [disabled]="editForm.invalid || cargando()">
+              @if (cargando()) {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+              } @else {
+                Actualizar Catálogo
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
