@@ -6,9 +6,9 @@ import { Observable, map } from 'rxjs';
 export class AsistenteService {
   private http = inject(HttpClient);
   
-  private apiKey = 'AIzaSyCFKD1dKmWuBttKOJ_GfjkTPOA1NW5_6QI'; 
+  private apiKey = 'AIzaSyBWV7b3ORxrzRWxpv6Ksv7wKmWklW7WuQg'; 
   
-  private apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${this.apiKey}`;
+  private apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${this.apiKey}`;
 
   enviarMensaje(mensajeUsuario: string): Observable<string> {
     const promptContext = `
