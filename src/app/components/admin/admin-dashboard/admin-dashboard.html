@@ -1,0 +1,110 @@
+<div class="container-fluid py-4">
+  <h3 class="fw-bold mb-4"><i class="bi bi-speedometer2 me-2"></i>Panel de Control</h3>
+
+  @if (stats()) {
+    <div class="row g-4 mb-4">
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 bg-primary text-white">
+          <div class="card-body p-4 d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-uppercase fw-bold opacity-75">Total Productos</h6>
+              <h2 class="fw-bold mb-0">{{ stats().total_productos }}</h2>
+            </div>
+            <i class="bi bi-box-seam display-4 opacity-50"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 bg-success text-white">
+          <div class="card-body p-4 d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-uppercase fw-bold opacity-75">Categorías Activas</h6>
+              <h2 class="fw-bold mb-0">{{ stats().total_categorias }}</h2>
+            </div>
+            <i class="bi bi-tags display-4 opacity-50"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 bg-danger text-white">
+          <div class="card-body p-4 d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-uppercase fw-bold opacity-75">Alertas de Stock</h6>
+              <h2 class="fw-bold mb-0">{{ stats().alertas_stock.length }}</h2>
+            </div>
+            <i class="bi bi-exclamation-triangle display-4 opacity-50"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      
+      <div class="col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+          <div class="card-body p-4 text-center">
+            <h5 class="fw-bold border-bottom pb-3 mb-4">Distribución del Catálogo</h5>
+            <div style="display: block; max-height: 300px; margin: 0 auto;">
+              <canvas baseChart
+                [data]="chartData"
+                [options]="chartOptions"
+                [type]="'pie'">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-4 h-100 border-danger border-top border-4">
+          <div class="card-body p-4">
+            <h5 class="fw-bold text-danger mb-4"><i class="bi bi-bell-fill me-2"></i>Avisos de Stock Bajo</h5>
+            
+            @if (stats().alertas_stock.length === 0) {
+              <div class="alert alert-success fw-bold text-center mt-5">
+                <i class="bi bi-check-circle-fill me-2"></i>El inventario está en perfectas condiciones.
+              </div>
+            } @else {
+              <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Producto</th>
+                      <th>Marca</th>
+                      <th class="text-center">Stock Actual</th>
+                      <th class="text-end">Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (alerta of stats().alertas_stock; track alerta.id) {
+                      <tr>
+                        <td class="fw-bold">{{ alerta.nombre }}</td>
+                        <td><span class="badge bg-secondary">{{ alerta.marca?.nombre }}</span></td>
+                        <td class="text-center">
+                          <span class="badge bg-danger fs-6">{{ alerta.stock }}</span>
+                        </td>
+                        <td class="text-end">
+                          <button class="btn btn-sm btn-outline-dark fw-bold" 
+                                [routerLink]="['/admin/productos']" 
+                                [queryParams]="{ edit: alerta.id }">
+                                <i class="bi bi-pencil-square me-1"></i>Revisar
+                            </button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="d-flex justify-content-center align-items-center" style="height: 50vh;">
+      <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;" role="status"></div>
+    </div>
+  }
+</div>

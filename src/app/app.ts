@@ -6,10 +6,11 @@ import { Services } from "./components/servicesC/services";
 import { Contact } from "./components/contact/contact";
 import { Footer } from "./components/footer/footer";
 import { Recambios } from "./components/recambios/recambios";
+import { AsistenteVirtualComponent } from '../app/components/asistente-virtual/asistente-virtual';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Hero, Services, Contact, Footer, Recambios],
+  imports: [RouterOutlet, Navbar, Hero, Services, Contact, Footer, Recambios,AsistenteVirtualComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

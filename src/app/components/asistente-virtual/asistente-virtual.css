@@ -1,0 +1,39 @@
+.btn-chat-flotante {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  transition: transform 0.2s;
+}
+
+.btn-chat-flotante:hover {
+  transform: scale(1.1);
+}
+
+.chat-ventana {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 350px;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1049;
+}
+
+.chat-mensajes {
+  flex-grow: 1;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+}
+
+.mensaje-burbuja {
+  max-width: 85%;
+  font-size: 0.9rem;
+}

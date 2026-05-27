@@ -5,7 +5,7 @@ import { Categoria, Marca } from '../../../models/tienda.model';
 import { HttpClient } from '@angular/common/http';
 import { AdminEditProductoComponent } from '../admin-edit-producto/admin-edit-producto';
 import { DecimalPipe } from '@angular/common';
-
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   standalone: true,
   imports: [ReactiveFormsModule, AdminEditProductoComponent, DecimalPipe],
@@ -16,7 +16,8 @@ export class AdminProductosComponent implements OnInit {
   private fb = inject(FormBuilder);
   private prodService = inject(ProductoService);
   private http = inject(HttpClient);
-
+private route = inject(ActivatedRoute);
+  private router = inject(Router);
   categorias = signal<Categoria[]>([]);
   marcas = signal<Marca[]>([]);
   productos = signal<any[]>([]); // Almacena el listado global
@@ -46,6 +47,18 @@ export class AdminProductosComponent implements OnInit {
   cargarCatalogo() {
     this.http.get<any[]>('https://tfgbacklaravel.onrender.com/api/productos').subscribe(res => {
       this.productos.set(res);
+
+      const editId = this.route.snapshot.queryParamMap.get('edit');
+      
+      if (editId) {
+        const productoARevisar = res.find(p => p.id === Number(editId));
+        
+        if (productoARevisar) {
+          this.abrirEditar(productoARevisar);
+
+          this.router.navigate([], { queryParams: { edit: null }, queryParamsHandling: 'merge' });
+        }
+      }
     });
   }
 

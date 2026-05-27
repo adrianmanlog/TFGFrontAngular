@@ -14,7 +14,7 @@ import { AdminMarcasComponent } from './components/admin/admin-marcas/admin-marc
 import { ProductoDetalleComponent } from './components/producto-detalle/producto-detalle';
 import { MisPedidosComponent } from './components/mis-pedidos/mis-pedidos';
 import { AdminPedidosComponent } from './components/admin/admin-pedidos/admin-pedidos';
-
+import { AdminDashboardComponent } from '../app/components/admin/admin-dashboard/admin-dashboard';
 export const routes: Routes = [
   { path: '', component: Home },
   {
@@ -22,6 +22,7 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [adminGuard],
     children: [
+      { path: 'dashboard', component: AdminDashboardComponent},
       { path: 'productos', component: AdminProductosComponent },
       { path: 'categorias', component: AdminCategoriasComponent },
       { path: 'marcas', component: AdminMarcasComponent },
