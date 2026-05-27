@@ -8,7 +8,7 @@ export class AsistenteService {
   
   private apiKey = 'AIzaSyCFKD1dKmWuBttKOJ_GfjkTPOA1NW5_6QI'; 
   
-  private apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${this.apiKey}`;
+  private apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${this.apiKey}`;
 
   enviarMensaje(mensajeUsuario: string): Observable<string> {
     const promptContext = `
